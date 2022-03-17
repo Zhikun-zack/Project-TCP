@@ -92,7 +92,7 @@ Write &Write::with_bytes_written(const size_t bytes_written) {
 std::string Write::description() const { return "write \"" + _data + "\" to the stream"; }
 void Write::execute(ByteStream &bs) const {
     auto bytes_written = bs.write(_data);
-    if (_bytes_written and bytes_written != _bytes_written.value()) {
+    if (_bytes_written && bytes_written != _bytes_written.value()) {
         throw ByteStreamExpectationViolation::property("bytes_written", _bytes_written.value(), bytes_written);
     }
 }
