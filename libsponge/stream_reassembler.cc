@@ -79,7 +79,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     if(index >= _capacity + _output.bytes_read()) return;
 
     string tmp(data);
-    cout << "This is tmp: " << tmp;
+    // cout << "This is tmp: " << tmp;
 
     if(index + tmp.size() > _capacity + _output.bytes_read()){
         tmp.resize(_capacity + _output.bytes_read() - index);
@@ -144,3 +144,4 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
 size_t StreamReassembler::unassembled_bytes() const { return _stored_bytes - _assembled_bytes; }
 
 bool StreamReassembler::empty() const { return (_stored_bytes == _assembled_bytes) && _eof; }
+
