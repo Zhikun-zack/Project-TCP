@@ -83,7 +83,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
 
     if(index + tmp.size() > _capacity + _output.bytes_read()){
         tmp.resize(_capacity + _output.bytes_read() - index);
-    }
+    } else _eof |= eof;
 
     if(index + tmp.size() <= _assembled_bytes){
         if(empty()) _output.end_input();
