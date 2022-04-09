@@ -34,7 +34,7 @@ class StreamReassembler {
     using Type2 = std::vector<std::pair<size_t, size_t>>;
 
     // added private function
-    void remove_segement(const Type1 &it, size_t l, size_t r, Type2 &_erase, Type2 &_insert);
+    void remove_segment(const Type1 &it, size_t l, size_t r, Type2 &_erase, Type2 &_insert);
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
