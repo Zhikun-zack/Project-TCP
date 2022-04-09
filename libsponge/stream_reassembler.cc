@@ -131,8 +131,14 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         it_l++;
     }
 
-    for (auto v: _need_to_erase) _used_byte.erase(v);
-    for (auto v: _need_to_insert) _used_byte.insert(v);
+    for (auto v: _need_to_erase){
+        cout << "_need_to_erase is : " << v.first << " " << v.second << '\n';
+        _used_byte.erase(v);
+    };
+    for (auto v: _need_to_insert){ 
+        cout << "_need_to_insert is : " << v.first << " " << v.second << '\n';
+        _used_byte.insert(v);
+    };
 
     decltype(_existed)::iterator it = _existed.lower_bound(index);
     if(it == _existed.end()){
