@@ -113,6 +113,10 @@ int main() {
             test.execute(NotAtEof{});
 
             test.execute(SubmitSegment{"cdefg", 2});
+
+            // Step for verification
+            // BytesAssembled is the length of the assembled bytes
+            // BytesAvailable is the result the assembled bytes should be
             test.execute(BytesAssembled(8));
             test.execute(BytesAvailable{"abcdefgh"});
             test.execute(NotAtEof{});

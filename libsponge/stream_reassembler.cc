@@ -175,7 +175,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     }
     // _end_input() is the function from byte_stream.cc, one of the function in ByteStream class
     if(empty()) _output.end_input();
-    cout << "This is the final output string: "<< _output.read(10) << '\n';
+    // cout << "This is the final output string: "<< _output.read(10) << '\n';
 }
 
 size_t StreamReassembler::unassembled_bytes() const { return _stored_bytes - _assembled_bytes; }
