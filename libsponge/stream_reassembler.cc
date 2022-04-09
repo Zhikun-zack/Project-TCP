@@ -109,9 +109,9 @@ StreamReassembler::StreamReassembler(const size_t capacity) :
 // index is a number: represent the position of the first char in data: e.g.: 'bcdefg' 6: index is 6 means 'b' is at index 6 position
 // eof is boolean default value is false: represent whether the stream has end or not.
 void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
-    cout << "data value: " << data << '\n';
-    cout << "index: " << index << '\n';
-    cout << "Eof: " << eof << '\n';
+    // cout << "data value: " << data << '\n';
+    // cout << "index: " << index << '\n';
+    // cout << "Eof: " << eof << '\n';
     DUMMY_CODE(data, index, eof);
 
     // If the input data's index is larger than capacity
@@ -154,11 +154,11 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     }
 
     for (auto v: _need_to_erase){
-        cout << "_need_to_erase is : " << v.first << " " << v.second << '\n';
+        // cout << "_need_to_erase is : " << v.first << " " << v.second << '\n';
         _used_byte.erase(v);
     };
     for (auto v: _need_to_insert){ 
-        cout << "_need_to_insert is : " << v.first << " " << v.second << '\n';
+        // cout << "_need_to_insert is : " << v.first << " " << v.second << '\n';
         _used_byte.insert(v);
     };
 
