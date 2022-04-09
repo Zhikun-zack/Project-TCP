@@ -29,7 +29,6 @@ int main() {
         }
 
         {
-            cout << '1';
             ReassemblerTestHarness test{65000};
 
             test.execute(SubmitSegment{"a", 0}.with_eof(true));

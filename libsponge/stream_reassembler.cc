@@ -175,7 +175,6 @@
 
 // bool StreamReassembler::empty() const { return (_stored_bytes == _assembled_bytes) && _eof; }
 
-
 #include "stream_reassembler.hh"
 #include <iostream>
 #include <limits>
