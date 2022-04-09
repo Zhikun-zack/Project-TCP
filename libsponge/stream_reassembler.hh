@@ -22,6 +22,7 @@ class StreamReassembler {
     size_t _stored_bytes; //!< The maximum number of bytes>
 
     // List of pairs, each pair contains string and a int value
+    // pair<data, index of the first character>
     std::list<std::pair<std::string,size_t> > _str_to_assemble;
 
     // map: key is size_t, value is iterator in list, the list is same as _str_to_assemble
