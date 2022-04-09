@@ -72,7 +72,13 @@ StreamReassembler::StreamReassembler(const size_t capacity) :
 //! \details This function accepts a substring (aka a segment) of bytes,
 //! possibly out-of-order, from the logical stream, and assembles any newly
 //! contiguous substrings and writes them into the output stream in order.
+// data is like "abc"
+// index is a number 
+// eof is boolean default value is false
 void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
+    cout << "data value: " << data << '\n';
+    cout << "index: " << index << '\n';
+    cout << "Eof: " << eof << '\n';
     DUMMY_CODE(data, index, eof);
 
     // If the input data's index is larger than capacity
@@ -81,6 +87,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     string tmp(data);
     // cout << "This is tmp: " << tmp;
 
+    // Total number of bytes popped
     if(index + tmp.size() > _capacity + _output.bytes_read()){
         tmp.resize(_capacity + _output.bytes_read() - index);
     } else _eof |= eof;
@@ -93,11 +100,17 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     // Calculate stored bytes
     // Iterator of _used_byte type(set of pairs) which is pair type
     // Lower bound is to find the first iterator in _used_byte which first value larger or equalto index and same as second value
+    // Lower bound for vector of pairs will be: return first pairs whose both first and second value larger than the given value
     decltype(_used_byte)::iterator it_l = _used_byte.lower_bound(make_pair(index, index));
     decltype(_used_byte)::iterator it_r = _used_byte.lower_bound(make_pair(index+tmp.size(), index + tmp.size()));
 
     // Define two vectors, both contain pair as inside element
     vector<pair<size_t, size_t>> _need_to_erase{}, _need_to_insert{};
+
+
+    // for (auto itr : _used_byte){
+    //     cout << itr.first << " " << itr.second << '\n';
+    // }
 
     if(it_l != _used_byte.begin()) it_l--;
     

@@ -29,6 +29,7 @@ int main() {
         }
 
         {
+            cout << '1';
             ReassemblerTestHarness test{65000};
 
             test.execute(SubmitSegment{"a", 0}.with_eof(true));
@@ -119,7 +120,7 @@ int main() {
         }
 
         // credit for test: Bill Lin (2020)
-        {
+        {   
             ReassemblerTestHarness test{8};
 
             test.execute(SubmitSegment{"abc", 0});
