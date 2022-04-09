@@ -15,7 +15,7 @@ class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
 
-    // ByteStream is a class created in 'byte_stream'
+    // ByteStream is a class created in 'byte_stream.cc'
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
     size_t _assembled_bytes; //!< The maximum number of bytes>

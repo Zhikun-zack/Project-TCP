@@ -142,10 +142,15 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     };
 
     decltype(_existed)::iterator it = _existed.lower_bound(index);
+    for (auto i: _existed){
+        cout << " " << i.first << " " << i.second.first << " " << i.second.second << "\n";
+    }
     if(it == _existed.end()){
+        // If index is at the end of the string, append a new key value pair into the _existed dict
         _str_to_assemble.push_back(make_pair(tmp, index));
         _existed[index] = (--_str_to_assemble.end()); 
     }else{
+        // If key(index) exist, just set the value not create a new one
         if(it -> first == index){
             if(tmp.size() > (it->second->first).size()){
                 *(it -> second) = make_pair(tmp, index);
@@ -164,10 +169,12 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         if(_index + _data.size() > _assembled_bytes){
             _output.write(_data.substr(_assembled_bytes - _index, _index + _data.size() - _assembled_bytes));
             _assembled_bytes = _index + _data.size();
+            cout << "_assembled_bytes = " << _assembled_bytes << '\n';
         }
         _existed.erase(_index);
         _str_to_assemble.pop_front();
     }
+    // _end_input() is the function from byte_stream.cc, one of the function in ByteStream class
     if(empty()) _output.end_input();
 }
 
