@@ -1,5 +1,7 @@
 #include "stream_reassembler.hh"
 #include <iostream>
+#include <limits>
+#include <vector>
 
 // Dummy implementation of a stream reassembler.
 
@@ -14,30 +16,39 @@ void DUMMY_CODE(Targs &&... /* unused */) {}
 using namespace std;
 
 /**
+ *  Test whether the new passed string is duplicate with the existed string
+ *      e.g.: 
+ *          first: "abc" 0
+ *          second: "bcdefg" 1
+ *              Then the "bc" are duplicated part
  *  @param it: iterator, pointer to pairs, contains two values left index and right, represent the range of received byte
- *  @param l: left boundary of range that be able to insert into
- *  @param r: right boundary of range that be able to insert into
+ *  @param l: start index of the passed in string;
+ *  @param r: end index of the passed in string;
+ *      e.g.: "bcdefg" 6: l: 6; r: 6 + len(str) = 11;
  *  
  */
 void StreamReassembler::remove_segment(const Type1 &it, size_t l, size_t r, Type2 &_erase, Type2 &_insert){
     DUMMY_CODE(it, l, r);
 
-    // If byte range is outside of the valid range, stop insert
     // it->second is the second value of the pair
+    // If no duplicate, stop this function;
     if(l >= it->second || r <= it->first) return;
 
+    // Else has duplicated part, just insert the whole string into the _erase vector
+    //     Then insert the not duplicate part into the _insert vector
     _erase.push_back(*it);
     // if part of the byte is outside of the range
     // From it->first to left boundary is outside
     if(l >= it->first){
+        // not duplicate part; from the end of the existed string to the end of this passed in string
         auto new_node = make_pair(r, it->second);
-        // From left boundary of range to right boundary or end of the byte 
-        //  are the byte needs to insert
+        
+        // Store the length of duplicated part;
         _stored_bytes += min(r, it->second) - l;
 
         auto node = *it;
         node.second = l;
-
+        
         if(node.second > node.first){
             _insert.push_back(node);
         }
@@ -47,7 +58,7 @@ void StreamReassembler::remove_segment(const Type1 &it, size_t l, size_t r, Type
     }
     // If the start of byte in the range
     else{
-        // stored byte will be from start of the byte to right boundary or end of the byte 
+        // stored byte only store the range of used bytes, if l < it->first which means from l to it->first will out side of this stream, discard this part
         _stored_bytes += min(r, it->second) - it->first;
         auto node = *it;
         node.second = r;
@@ -72,9 +83,9 @@ StreamReassembler::StreamReassembler(const size_t capacity) :
 //! \details This function accepts a substring (aka a segment) of bytes,
 //! possibly out-of-order, from the logical stream, and assembles any newly
 //! contiguous substrings and writes them into the output stream in order.
-// data is like "abc"
-// index is a number 
-// eof is boolean default value is false
+// data is like "abc": represent the string that passed in in stream
+// index is a number: represent the position of the first char in data: e.g.: 'bcdefg' 6: index is 6 means 'b' is at index 6 position
+// eof is boolean default value is false: represent whether the stream has end or not.
 void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
     cout << "data value: " << data << '\n';
     cout << "index: " << index << '\n';
