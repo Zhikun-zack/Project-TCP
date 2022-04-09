@@ -142,9 +142,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     };
 
     decltype(_existed)::iterator it = _existed.lower_bound(index);
-    for (auto i: _existed){
-        cout << " " << i.first << " " << i.second.first << " " << i.second.second << "\n";
-    }
+
     if(it == _existed.end()){
         // If index is at the end of the string, append a new key value pair into the _existed dict
         _str_to_assemble.push_back(make_pair(tmp, index));
