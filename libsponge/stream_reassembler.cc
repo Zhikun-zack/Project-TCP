@@ -158,22 +158,10 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
 
 
     // .front() return a reference at the beginning of the _str_to_assemble
-    // while(!_str_to_assemble.empty() && _str_to_assemble.front().second <= _assembled_bytes){
-    //     size_t _index = _str_to_assemble.front().second;
-    //     string _data = _str_to_assemble.front().first;
-    //     if(_index + _data.size() > _assembled_bytes){
-    //         _output.write(_data.substr(_assembled_bytes - _index, _index + data.size() - _assembled_bytes));
-    //         _assembled_bytes = _index + _data.size();
-    //     }
-    //     _existed.erase(_index);
-    //     _str_to_assemble.pop_front();
-    // }
-    // if(empty()) _output.end_input();
-
-    while(!_str_to_assemble.empty() && _str_to_assemble.front().second <= _assembled_bytes) {
+    while(!_str_to_assemble.empty() && _str_to_assemble.front().second <= _assembled_bytes){
         size_t _index = _str_to_assemble.front().second;
         string _data = _str_to_assemble.front().first;
-        if(_index + _data.size() > _assembled_bytes) {
+        if(_index + _data.size() > _assembled_bytes){
             _output.write(_data.substr(_assembled_bytes - _index, _index + _data.size() - _assembled_bytes));
             _assembled_bytes = _index + _data.size();
         }
@@ -181,8 +169,6 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         _str_to_assemble.pop_front();
     }
     if(empty()) _output.end_input();
-
-
 }
 
 size_t StreamReassembler::unassembled_bytes() const { return _stored_bytes - _assembled_bytes; }
