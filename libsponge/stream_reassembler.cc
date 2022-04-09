@@ -159,7 +159,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         }
     }
 
-
+    cout << "________________________________________________________________";
     // .front() return a reference at the beginning of the _str_to_assemble
     while(!_str_to_assemble.empty() && _str_to_assemble.front().second <= _assembled_bytes){
         size_t _index = _str_to_assemble.front().second;
