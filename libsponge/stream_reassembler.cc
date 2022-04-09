@@ -88,85 +88,58 @@ StreamReassembler::StreamReassembler(const size_t capacity) :
 // index is a number: represent the position of the first char in data: e.g.: 'bcdefg' 6: index is 6 means 'b' is at index 6 position
 // eof is boolean default value is false: represent whether the stream has end or not.
 void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
-    // // cout << "data value: " << data << '\n';
-    // // cout << "index: " << index << '\n';
-    // // cout << "Eof: " << eof << '\n';
-    // DUMMY_CODE(data, index, eof);
-
-    // // If the input data's index is larger than capacity
-    // if(index >= _capacity + _output.bytes_read()) return;
-
-    // string tmp(data);
-    // // cout << "This is tmp: " << tmp;
-
-    // // Total number of bytes popped
-    // if(index + tmp.size() > _capacity + _output.bytes_read()){
-    //     tmp.resize(_capacity + _output.bytes_read() - index);
-    // } else _eof |= eof;
-
-    // if(index + tmp.size() <= _assembled_bytes){
-    //     if(empty()) _output.end_input();
-    //     return;
-    // }
-
-    // // Calculate stored bytes
-    // // Iterator of _used_byte type(set of pairs) which is pair type
-    // // Lower bound is to find the first iterator in _used_byte which first value larger or equalto index and same as second value
-    // // Lower bound for vector of pairs will be: return first pairs whose both first and second value larger than the given value
-    // decltype(_used_byte)::iterator it_l = _used_byte.lower_bound(make_pair(index, index));
-    // decltype(_used_byte)::iterator it_r = _used_byte.lower_bound(make_pair(index+tmp.size(), index + tmp.size()));
-
-    // // Define two vectors, both contain pair as inside element
-    // vector<pair<size_t, size_t>> _need_to_erase{}, _need_to_insert{};
-
-
-    // // for (auto itr : _used_byte){
-    // //     cout << itr.first << " " << itr.second << '\n';
-    // // }
-
-    // if(it_l != _used_byte.begin()) it_l--;
-    
-    // while (it_l != _used_byte.end()){
-    //     remove_segment(it_l, index, index+tmp.size(), _need_to_erase, _need_to_insert);
-    //     if(it_l == it_r) return;
-    //     it_l++;
-    // }
-
-    // for (auto v: _need_to_erase){
-    //     // cout << "_need_to_erase is : " << v.first << " " << v.second << '\n';
-    //     _used_byte.erase(v);
-    // };
-    // for (auto v: _need_to_insert){ 
-    //     // cout << "_need_to_insert is : " << v.first << " " << v.second << '\n';
-    //     _used_byte.insert(v);
-    // };
-
+    // cout << "data value: " << data << '\n';
+    // cout << "index: " << index << '\n';
+    // cout << "Eof: " << eof << '\n';
     DUMMY_CODE(data, index, eof);
+
+    // If the input data's index is larger than capacity
     if(index >= _capacity + _output.bytes_read()) return;
+
     string tmp(data);
-    if(index + tmp.size() > _capacity + _output.bytes_read()) {
+    // cout << "This is tmp: " << tmp;
+
+    // Total number of bytes popped
+    if(index + tmp.size() > _capacity + _output.bytes_read()){
         tmp.resize(_capacity + _output.bytes_read() - index);
     } else _eof |= eof;
-    
-    if(index + tmp.size() <= _assembled_bytes) {
+
+    if(index + tmp.size() <= _assembled_bytes){
         if(empty()) _output.end_input();
         return;
     }
-    
-    // Calculate stored bytes
-    decltype(_used_byte)::iterator it_l = _used_byte.lower_bound(make_pair(index, index));
-    decltype(_used_byte)::iterator it_r = _used_byte.lower_bound(make_pair(index + tmp.size(), index + tmp.size()));
 
+    // Calculate stored bytes
+    // Iterator of _used_byte type(set of pairs) which is pair type
+    // Lower bound is to find the first iterator in _used_byte which first value larger or equalto index and same as second value
+    // Lower bound for vector of pairs will be: return first pairs whose both first and second value larger than the given value
+    decltype(_used_byte)::iterator it_l = _used_byte.lower_bound(make_pair(index, index));
+    decltype(_used_byte)::iterator it_r = _used_byte.lower_bound(make_pair(index+tmp.size(), index + tmp.size()));
+
+    // Define two vectors, both contain pair as inside element
     vector<pair<size_t, size_t>> _need_to_erase{}, _need_to_insert{};
 
+
+    // for (auto itr : _used_byte){
+    //     cout << itr.first << " " << itr.second << '\n';
+    // }
+
     if(it_l != _used_byte.begin()) it_l--;
-    while(it_l != _used_byte.end()) {
-        remove_segment(it_l, index, index + tmp.size(), _need_to_erase, _need_to_insert);
+    
+    while (it_l != _used_byte.end()){
+        remove_segment(it_l, index, index+tmp.size(), _need_to_erase, _need_to_insert);
         if(it_l == it_r) break;
         it_l++;
     }
-    for(auto v : _need_to_erase) _used_byte.erase(v);
-    for(auto v : _need_to_insert) _used_byte.insert(v);
+
+    for (auto v: _need_to_erase){
+        // cout << "_need_to_erase is : " << v.first << " " << v.second << '\n';
+        _used_byte.erase(v);
+    };
+    for (auto v: _need_to_insert){ 
+        // cout << "_need_to_insert is : " << v.first << " " << v.second << '\n';
+        _used_byte.insert(v);
+    };
 
     decltype(_existed)::iterator it = _existed.lower_bound(index);
     if(it == _existed.end()){
